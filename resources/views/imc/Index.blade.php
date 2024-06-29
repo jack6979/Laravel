@@ -19,7 +19,8 @@
 
     <button type="submit" class="btn btn-primary">Calculer</button>
   </form>
-
-
-
+  <label >RESULTADO</label><br>
+  <label>IMC: {{$resultado["imc"]}}</label><br>
+  <label>FAIXA: {{$resultado["faixa"]}}</label><br>
+  <br><br><br>
 </x-layout>

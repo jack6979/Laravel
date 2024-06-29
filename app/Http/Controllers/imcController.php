@@ -65,10 +65,35 @@ class imcController extends Controller
         $imc->save();
 
         return redirect()->route('imc.calcular', $data);
+    }
+    public function show(Request $request) {
+        $showImc = ImcModel::orderBy('id', 'asc')->get();
 
-
+        return view('imc.show')->with('showImc', $showImc);
 
     }
+
+   public function destroy(Request $request, $id) {
+    $deleteImc = ImcModel::findOrFail($id);
+    $deleteImc->delete();
+
+    return redirect('/imc/show');
+   }
+   public function
+update(Request $request,$id){
+ $updateImc = ImcModel::findOrFail($id);
+
+
+ $updateImc->nome=($request->novo_nome);
+ $updateImc->peso=($request->novo_peso);
+ $updateImc->altura=($request->novo_altura);
+
+ $updateImc->save();
+
+ return redirect('/imc/show');
+
+}
+
 }
 
 
