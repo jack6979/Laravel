@@ -1,11 +1,9 @@
 <x-layout title="calcular IMC">
-
     <div class="titulo">
-        <h1>HISTORICO DE IMC</h1>
+        <h1>HISTÓRICO DE IMC</h1>
     </div>
     <table class="table">
         <thead>
-
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
@@ -14,11 +12,9 @@
                 <th scope="col">Ações</th>
                 <th scope="col"></th>
             </tr>
-
         </thead>
         <tbody>
             @foreach ($showImc as $imc)
-
             <tr>
                 <th scope="row">{{$imc->id}}</th>
                 <td>{{$imc->nome}}</td>
@@ -28,7 +24,7 @@
                     <form id="deleteform{{$imc->id}}" action="{{ route('imc.delete',['id'=> $imc->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-default btn-lg" data-bs-toggle="modal">
+                        <button type="submit" class="btn btn-default btn-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                             </svg>
@@ -44,42 +40,42 @@
                     </button>
                 </td>
             </tr>
-
-            <div class="modal fade" id="myModal{{$imc->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" action="/imc/store">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="exampleInputNOME">NOME</label>
-                                    <input type="text" class="form-control" id="exampleInputAltura" placeholder="" name="novo_nome">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPeso">Peso</label>
-                                    <input type="text" class="form-control" id="exampleInputPeso" placeholder="" name="peso">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputAltura">Altura</label>
-                                    <input type="text" class="form-control" id="exampleInputAltura" placeholder="" name="altura">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Calcular</button>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary">Entendi</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             @endforeach
         </tbody>
     </table>
 
+    <!-- Modal -->
+    @foreach ($showImc as $imc)
+    <div class="modal fade" id="myModal{{$imc->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Editar IMC</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('imc.update', ['id' => $imc->id]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="imc_id" value="{{$imc->id}}">
+                        <div class="form-group">
+                            <label for="novo_nome{{$imc->id}}">Novo Nome</label>
+                            <input type="text" class="form-control" id="novo_nome{{$imc->id}}" name="novo_nome" value="{{$imc->nome}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="novo_peso{{$imc->id}}">Novo Peso</label>
+                            <input type="text" class="form-control" id="novo_peso{{$imc->id}}" name="novo_peso" value="{{$imc->peso}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="novo_altura{{$imc->id}}">Nova Altura</label>
+                            <input type="text" class="form-control" id="novo_altura{{$imc->id}}" name="novo_altura" value="{{$imc->altura}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
 </x-layout>
